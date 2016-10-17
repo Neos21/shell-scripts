@@ -19,7 +19,7 @@ Exit /b
 
 
 
-Rem ・Torutk - Windows バッチファイル: http://www.torutk.com/projects/swe/wiki/Windows%E3%83%90%E3%83%83%E3%83%81%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB
+Rem ・Torutk - Windows バッチファイル : http://www.torutk.com/projects/swe/wiki/Windows%E3%83%90%E3%83%83%E3%83%81%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB
 Rem ・マコトのおもちゃ箱 - Windows バッチファイル (.bat) を最小化した状態で起動する : http://piyopiyocs.blog115.fc2.com/blog-entry-731.html
 Rem ・火蛾の灯樹 - バッチファイルを最小化して起動 : http://d.hatena.ne.jp/firedfly/20091124/p1
 Rem     @If Not "%~0" == "%~dp0.\%~nx0" Start /min Cmd /c, "%~dp0.\%~nx0" %* & Goto :EOF
