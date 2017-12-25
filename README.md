@@ -1,5 +1,20 @@
-今更ながら Windows バッチをいぢります。
+# Windows Batch Scripts今更ながら
 
-一部 WSH も混じるかも知れません。
+今更ながら Windows バッチをいぢります。一部 WSH (VBScript) も混じったりします。
 
-こんなページも作ってみました。 → [Neo's GitHub Pages - WindowsBatchScripts](http://neos21github.github.io/WindowsBatchScripts/)
+「あの処理はあの言語でどう書くの？」をまとめた GitHub Pages もドウゾ → __[Windows Batch Scripts](http://neos21github.github.io/WindowsBatchScripts/)__
+
+
+## Author
+
+[Neo](http://neo.s21.xrea.com/) ([@Neos21](https://twitter.com/neos21))
+
+
+## Links
+
+- [Neo's World](http://neo.s21.xrea.com/)
+- [Corredor](http://neos21.hatenablog.com/)
+- [Murga](http://neos21.hatenablog.jp/)
+- [El Mylar](http://neos21.hateblo.jp/)
+- [Bit-Archer](http://bit-archer.hatenablog.com/)
+- [GitHub - Neos21GitHub](https://github.com/Neos21GitHub/)
