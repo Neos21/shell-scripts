@@ -2,7 +2,7 @@
 
 今更ながら Windows バッチをいぢります。一部 WSH (VBScript) も混じったりします。
 
-「あの処理はあの言語でどう書くの？」をまとめた GitHub Pages もドウゾ → __[Windows Batch Scripts](http://neos21github.github.io/WindowsBatchScripts/)__
+「あの処理はあの言語でどう書くの？」をまとめた GitHub Pages もドウゾ → __[Windows Batch Scripts](http://neos21.github.io/WindowsBatchScripts/)__
 
 
 ## Author
@@ -17,4 +17,4 @@
 - [Murga](http://neos21.hatenablog.jp/)
 - [El Mylar](http://neos21.hateblo.jp/)
 - [Bit-Archer](http://bit-archer.hatenablog.com/)
-- [GitHub - Neos21GitHub](https://github.com/Neos21GitHub/)
+- [GitHub - Neos21](https://github.com/Neos21/)

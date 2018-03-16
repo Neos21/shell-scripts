@@ -1,8 +1,8 @@
 # WindowsBatchScripts の GitHub Pages
 
-[WindowsBatchScripts](https://github.com/Neos21GitHub/WindowsBatchScripts/) リポジトリの GitHub Pages です。
+[WindowsBatchScripts](https://github.com/Neos21/WindowsBatchScripts/) リポジトリの GitHub Pages です。
 
-__[Enter This Website](https://neos21github.github.io/WindowsBatchScripts/)__
+__[Enter This Website](https://neos21.github.io/WindowsBatchScripts/)__
 
 
 ## Author
@@ -17,4 +17,4 @@ __[Enter This Website](https://neos21github.github.io/WindowsBatchScripts/)__
 - [Murga](http://neos21.hatenablog.jp/)
 - [El Mylar](http://neos21.hateblo.jp/)
 - [Bit-Archer](http://bit-archer.hatenablog.com/)
-- [GitHub - Neos21GitHub](https://github.com/Neos21GitHub/)
+- [GitHub - Neos21](https://github.com/Neos21/)
