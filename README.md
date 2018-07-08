@@ -1,4 +1,4 @@
-# Windows Batch Scripts 今更ながら
+# WindowsBatchScripts 今更ながら
 
 今更ながら Windows バッチをいぢります。一部 WSH (VBScript / JScript) も混じったりします。
 
