@@ -1,3 +1,5 @@
+Option Explicit
+
 ' 「游ゴシック Regular」「游ゴシック Light」のフォントを「游ゴシック Medium」のフォントファイルに差し替えて
 ' Windows 環境の游ゴシックを太めにするスクリプト
 ' 
