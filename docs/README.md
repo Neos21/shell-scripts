@@ -1,8 +1,8 @@
-# WindowsBatchScripts の GitHub Pages
+# Windows Batch Scripts の GitHub Pages
 
-[WindowsBatchScripts](https://github.com/Neos21/WindowsBatchScripts/) リポジトリの GitHub Pages です。
+[Windows Batch Scripts](https://github.com/Neos21/windows-batch-scripts/) リポジトリの GitHub Pages です。
 
-__[Enter This Website](https://neos21.github.io/WindowsBatchScripts/)__
+__[Enter This Website](https://neos21.github.io/windows-batch-scripts/)__
 
 
 ## Author

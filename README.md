@@ -1,8 +1,8 @@
-# WindowsBatchScripts 今更ながら
+# Windows Batch Scripts
 
 今更ながら Windows バッチをいぢります。一部 WSH (VBScript / JScript) も混じったりします。
 
-「あの処理はあの言語でどう書くの？」をまとめた GitHub Pages もドウゾ → __[Windows Batch Scripts](http://neos21.github.io/WindowsBatchScripts/)__
+「あの処理はあの言語でどう書くの？」をまとめた GitHub Pages もドウゾ → __[Windows Batch Scripts](http://neos21.github.io/windows-batch-scripts/)__
 
 
 ## Author
