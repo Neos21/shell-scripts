@@ -7,7 +7,7 @@ __[Enter This Website](https://neos21.github.io/windows-batch-scripts/)__
 
 ## Author
 
-[Neo](http://neo.s21.xrea.com/) ([@Neos21](https://twitter.com/Neos21))
+[Neo](http://neo.s21.xrea.com/)
 
 
 ## Links
