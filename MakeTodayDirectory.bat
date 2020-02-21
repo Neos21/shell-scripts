@@ -36,5 +36,5 @@ Exit /b
 
 
 Rem ・主に言語とシステム開発に関して - 開発時に SVN リポジトリのディレクトリ上にコミットしておきたいバッチファイル : http://language-and-engineering.hatenablog.jp/entry/20101109/p1
-Rem ・特定のフォルダ配下に今日日付のフォルダを作成する Windows バッチ : http://neos21.hatenablog.com/entry/2016/01/23/160433
+Rem ・特定のフォルダ配下に今日日付のフォルダを作成する Windows バッチ : https://neos21.hatenablog.com/entry/2016/01/23/160433
 Rem ・意外に知らない Start コマンドの使い方 : http://orangeclover.hatenablog.com/entry/20090814/1250261637
