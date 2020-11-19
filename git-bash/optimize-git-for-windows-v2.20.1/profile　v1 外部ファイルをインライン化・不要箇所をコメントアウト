@@ -1,0 +1,319 @@
+# /etc/profile の元ソースは Git SDK v1.0.7 と全く同じだった
+
+MSYS2_PATH="/usr/local/bin:/usr/bin:/bin"
+MANPATH='/usr/local/man:/usr/share/man:/usr/man:/share/man'
+INFOPATH='/usr/local/info:/usr/share/info:/usr/info:/share/info'
+
+# case "${MSYS2_PATH_TYPE:-inherit}" in
+#   strict)
+#     unset ORIGINAL_PATH
+#     ;;
+#   inherit)
+#     # ココに入る・SDK と同じ
+    ORIGINAL_PATH="${ORIGINAL_PATH:-${PATH}}"
+#     ;;
+#   *)
+#     WIN_ROOT="$(PATH=${MSYS2_PATH} exec cygpath -Wu)"
+#     ORIGINAL_PATH="${WIN_ROOT}/System32:${WIN_ROOT}:${WIN_ROOT}/System32/Wbem:${WIN_ROOT}/System32/WindowsPowerShell/v1.0/"
+# esac
+
+unset MINGW_MOUNT_POINT
+
+
+# SOURCE : /etc/msystem
+# . '/etc/msystem'
+
+export MSYSTEM="${MSYSTEM:-MSYS}"
+unset MSYSTEM_PREFIX
+unset MSYSTEM_CARCH
+unset MSYSTEM_CHOST
+unset MINGW_CHOST
+unset MINGW_PREFIX
+unset MINGW_PACKAGE_PREFIX
+unset CONFIG_SITE
+# case "${MSYSTEM}" in
+#   MINGW32)
+#     MSYSTEM_PREFIX='/mingw32'
+#     MSYSTEM_CARCH='i686'
+#     MSYSTEM_CHOST='i686-w64-mingw32'
+#     MINGW_CHOST="${MSYSTEM_CHOST}"
+#     MINGW_PREFIX="${MSYSTEM_PREFIX}"
+#     MINGW_PACKAGE_PREFIX="mingw-w64-${MSYSTEM_CARCH}"
+#     CONFIG_SITE="${MSYSTEM_PREFIX}/etc/config.site"
+#     export MSYSTEM_PREFIX MSYSTEM_CARCH MSYSTEM_CHOST MINGW_CHOST MINGW_PREFIX MINGW_PACKAGE_PREFIX CONFIG_SITE
+#     ;;
+#   MINGW64)
+#     # ココに入る
+    MSYSTEM_PREFIX='/mingw64'
+    MSYSTEM_CARCH='x86_64'
+    MSYSTEM_CHOST='x86_64-w64-mingw32'
+    MINGW_CHOST="${MSYSTEM_CHOST}"
+    MINGW_PREFIX="${MSYSTEM_PREFIX}"
+    MINGW_PACKAGE_PREFIX="mingw-w64-${MSYSTEM_CARCH}"
+    CONFIG_SITE="${MSYSTEM_PREFIX}/etc/config.site"
+    export MSYSTEM_PREFIX MSYSTEM_CARCH MSYSTEM_CHOST MINGW_CHOST MINGW_PREFIX MINGW_PACKAGE_PREFIX CONFIG_SITE
+#     ;;
+#   *)
+#     MSYSTEM_PREFIX='/usr'
+#     MSYSTEM_CARCH="${HOSTTYPE}"
+#     MSYSTEM_CHOST="${MACHTYPE}"
+#     CONFIG_SITE="/etc/config.site"
+#     export MSYSTEM_PREFIX MSYSTEM_CARCH MSYSTEM_CHOST CONFIG_SITE
+#     ;;
+# esac
+# ---
+
+
+# case "${MSYSTEM}" in
+#   MINGW32)
+#     MINGW_MOUNT_POINT="${MINGW_PREFIX}"
+#     PATH="${MINGW_MOUNT_POINT}/bin:${MSYS2_PATH}${ORIGINAL_PATH:+:${ORIGINAL_PATH}}"
+#     PKG_CONFIG_PATH="${MINGW_MOUNT_POINT}/lib/pkgconfig:${MINGW_MOUNT_POINT}/share/pkgconfig"
+#     ACLOCAL_PATH="${MINGW_MOUNT_POINT}/share/aclocal:/usr/share/aclocal"
+#     MANPATH="${MINGW_MOUNT_POINT}/local/man:${MINGW_MOUNT_POINT}/share/man:${MANPATH}"
+#     ;;
+#   MINGW64)
+#     # ココに入る
+    MINGW_MOUNT_POINT="${MINGW_PREFIX}"
+    PATH="${MINGW_MOUNT_POINT}/bin:${MSYS2_PATH}${ORIGINAL_PATH:+:${ORIGINAL_PATH}}"
+    PKG_CONFIG_PATH="${MINGW_MOUNT_POINT}/lib/pkgconfig:${MINGW_MOUNT_POINT}/share/pkgconfig"
+    ACLOCAL_PATH="${MINGW_MOUNT_POINT}/share/aclocal:/usr/share/aclocal"
+    MANPATH="${MINGW_MOUNT_POINT}/local/man:${MINGW_MOUNT_POINT}/share/man:${MANPATH}"
+#     ;;
+#   *)
+#     echo mingw-other
+#     PATH="${MSYS2_PATH}:/opt/bin${ORIGINAL_PATH:+:${ORIGINAL_PATH}}"
+#     PKG_CONFIG_PATH="/usr/lib/pkgconfig:/usr/share/pkgconfig:/lib/pkgconfig"
+# esac
+
+MAYBE_FIRST_START=false
+SYSCONFDIR="${SYSCONFDIR:=/etc}"
+
+ORIGINAL_TMP="${ORIGINAL_TMP:-${TMP}}"
+ORIGINAL_TEMP="${ORIGINAL_TEMP:-${TEMP}}"
+# case "$TMP" in *\\*) TMP="$(cygpath -m "$TMP")";; esac
+# case "$TEMP" in *\\*) TEMP="$(cygpath -m "$TEMP")";; esac
+# test -d "$TMPDIR" || test ! -d "$TMP" || {
+#   # ココに入る
+  TMPDIR="$TMP"
+  export TMPDIR
+# }
+
+
+# 呼ばれない
+# print_flags () {
+#   (( $1 & 0x0002 )) && echo -n "binary" || echo -n "text"
+#   (( $1 & 0x0010 )) && echo -n ",exec"
+#   (( $1 & 0x0040 )) && echo -n ",cygexec"
+#   (( $1 & 0x0100 )) && echo -n ",notexec"
+# }
+
+# Shell dependent settings
+# profile_d ()
+# {
+#   local file=
+#   for file in $(export LC_COLLATE=C; echo /etc/profile.d/*.$1); do
+#     [ -e "${file}" ] && . "${file}"
+#   done
+#   
+#   if [ -n "${MINGW_MOUNT_POINT}" ]; then
+#     for file in $(export LC_COLLATE=C; echo ${MINGW_MOUNT_POINT}/etc/profile.d/*.$1); do
+#       # '/mingw64/etc/profile.d/*.sh' が1回実行されたがファイルがないので削れる
+#       [ -e "${file}" ] && . "${file}"
+#     done
+#   fi
+# }
+
+# Git For Windows だとコレが1つもなかったので最初から削っておける
+# for postinst in $(export LC_COLLATE=C; echo /etc/post-install/*.post); do
+#   [ -e "${postinst}" ] && . "${postinst}"
+# done
+
+# if [ ! "x${BASH_VERSION}" = "x" ]; then
+#   # ココに入る
+  HOSTNAME="$(exec /usr/bin/hostname)"
+  # 以下にインライン化
+  # profile_d sh
+  
+  # aliases.sh
+  alias ls='ls -F --color=auto --show-control-chars'
+  alias ll='ls -l'
+  case "$TERM" in
+    xterm*)
+    	for name in node ipython php php5 psql python2.7; do
+    		case "$(type -p "$name".exe 2>/dev/null)" in
+    	  	''|/usr/bin/*) continue;;
+    		esac
+    		alias $name="winpty $name.exe"
+        # 'node' だけ入った
+    	done
+    	;;
+  esac
+  
+  # bash_profile.sh : 無視でいい
+  
+  # env.sh
+  export PATH="$HOME/bin:$PATH"
+  # test -n "$SSH_ASKPASS" || {
+  # 	case "$MSYSTEM" in
+  # 	MINGW64)
+  #     # ココに入る
+  		export DISPLAY=needs-to-be-defined
+  		export SSH_ASKPASS=/mingw64/libexec/git-core/git-gui--askpass
+  # 		;;
+  # 	MINGW32)
+  # 		export DISPLAY=needs-to-be-defined
+  # 		export SSH_ASKPASS=/mingw32/libexec/git-core/git-gui--askpass
+  # 		;;
+  # 	esac
+  # }
+  
+  # git-prompt.sh
+  # if test -f /etc/profile.d/git-sdk.sh; then
+  # 	TITLEPREFIX=SDK-${MSYSTEM#MINGW}
+  # else
+  #   # ココに入る・'MINGW64'
+  	TITLEPREFIX=$MSYSTEM
+  # fi
+  # if test -f ~/.config/git/git-prompt.sh; then
+  #   # ココに入らない
+  # 	. ~/.config/git/git-prompt.sh
+  # else
+  #   # ココに入る
+  # 	PS1='\[\033]0;$TITLEPREFIX:$PWD\007\]' # set window title
+  # 	PS1="$PS1"'\n'                 # new line
+  # 	PS1="$PS1"'\[\033[32m\]'       # change to green
+  # 	PS1="$PS1"'\u@\h '             # user@host<space>
+  # 	PS1="$PS1"'\[\033[35m\]'       # change to purple
+  # 	PS1="$PS1"'$MSYSTEM '          # show MSYSTEM
+  # 	PS1="$PS1"'\[\033[33m\]'       # change to brownish yellow
+  # 	PS1="$PS1"'\w'                 # current working directory
+  # 	if test -z "$WINELOADERNOEXEC"; then
+  # 		GIT_EXEC_PATH="$(git --exec-path 2>/dev/null)"
+  # 		COMPLETION_PATH="${GIT_EXEC_PATH%/libexec/git-core}"
+  # 		COMPLETION_PATH="${COMPLETION_PATH%/lib/git-core}"
+  # 		COMPLETION_PATH="$COMPLETION_PATH/share/git/completion"
+  # 		if test -f "$COMPLETION_PATH/git-prompt.sh"; then
+  # 			. "$COMPLETION_PATH/git-completion.bash"
+  # 			. "$COMPLETION_PATH/git-prompt.sh"
+  # 			PS1="$PS1"'\[\033[36m\]'  # change color to cyan
+  # 			PS1="$PS1"'`__git_ps1`'   # bash function
+  # 		fi
+  # 	fi
+  # 	PS1="$PS1"'\[\033[0m\]'        # change color
+  # 	PS1="$PS1"'\n'                 # new line
+  # 	PS1="$PS1"'$ '                 # prompt: always $
+  # fi
+  PS1='\n$ '
+  MSYS2_PS1="$PS1"               # for detection by MSYS2 SDK's bash.basrc
+  
+  # lang.sh : デフォのまま使う
+  
+  # perlbin.sh
+  [ -d /usr/bin/site_perl ] && PATH=$PATH:/usr/bin/site_perl
+  [ -d /usr/lib/perl5/site_perl/bin ] && PATH=$PATH:/usr/lib/perl5/site_perl/bin
+  [ -d /usr/bin/vendor_perl ] && PATH=$PATH:/usr/bin/vendor_perl
+  [ -d /usr/lib/perl5/vendor_perl/bin ] && PATH=$PATH:/usr/lib/perl5/vendor_perl/bin
+  [ -d /usr/bin/core_perl ] && PATH=$PATH:/usr/bin/core_perl
+  export PATH
+  
+  # SDK と違って tzset.sh がない
+  
+  
+  # インライン化
+  # [ -f "/etc/bash.bashrc" ] && . "/etc/bash.bashrc"
+  
+  # ([[ -z ${CYG_SYS_BASHRC} ]] && CYG_SYS_BASHRC="1") || return
+  # [[ "$-" != *i* ]] && return
+  # if [[ -n "$SSH_CONNECTION" ]] && [[ "$PATH" != *:/usr/bin* ]]; then
+  #   # 到達しない
+  #   source /etc/profile
+  # fi
+  # unset _warning_found
+  # for _warning_prefix in '' ${MINGW_PREFIX}; do
+  #   for _warning_file in ${_warning_prefix}/etc/profile.d/*.warning{.once,}; do
+  #     # 3回ほど通る
+  #     test -f "${_warning_file}" || continue
+  #     # ココに到達しない
+  #     _warning="$(command sed 's/^/\t\t/' "${_warning_file}" 2>/dev/null)"
+  #     if test -n "${_warning}"; then
+  #       if test -z "${_warning_found}"; then
+  #         _warning_found='true'
+  #         echo
+  #       fi
+  #       if test -t 1
+  #         then printf "\t\e[1;33mwarning:\e[0m\n${_warning}\n\n"
+  #         else printf "\twarning:\n${_warning}\n\n"
+  #       fi
+  #     fi
+  #     [[ "${_warning_file}" = *.once ]] && rm -f "${_warning_file}"
+  #   done
+  # done
+  # unset _warning_found
+  # unset _warning_prefix
+  # unset _warning_file
+  # unset _warning
+  # [[ -n "${MSYS2_PS1}" ]] && export PS1="${MSYS2_PS1}"
+  # [[ $(declare -p PS1 2>/dev/null | cut -c 1-11) = 'declare -x ' ]] || \
+  #   export PS1='\[\e]0;\w\a\]\n\[\e[32m\]\u@\h \[\e[35m\]$MSYSTEM\[\e[0m\] \[\e[33m\]\w\[\e[0m\]\n'"${_ps1_symbol}"' '
+  # unset _ps1_symbol
+  # shopt -q login_shell || . /etc/profile.d/git-prompt.sh
+  
+  #---
+  
+# elif [ ! "x${KSH_VERSION}" = "x" ]; then
+#   echo kshh
+#   typeset -l HOSTNAME="$(exec /usr/bin/hostname)"
+#   profile_d sh
+#   PS1=$(print '\033]0;${PWD}\n\033[32m${USER}@${HOSTNAME} \033[33m${PWD/${HOME}/~}\033[0m\n$ ')
+# elif [ ! "x${ZSH_VERSION}" = "x" ]; then
+#   echo zshh
+#   HOSTNAME="$(exec /usr/bin/hostname)"
+#   profile_d sh
+#   profile_d zsh
+#   PS1='(%n@%m)[%h] %~ %% '
+# elif [ ! "x${POSH_VERSION}" = "x" ]; then
+#   echo poshh
+#   HOSTNAME="$(exec /usr/bin/hostname)"
+#   PS1="$ "
+# else
+#   echo othersh
+#   HOSTNAME="$(exec /usr/bin/hostname)"
+#   profile_d sh
+#   PS1="$ "
+# fi
+
+if [ -n "$ACLOCAL_PATH" ]
+then
+  # SDK と違い '/mingw64/share/aclocal:/usr/share/aclocal' という値が入っていた
+  export ACLOCAL_PATH
+fi
+
+export PATH MANPATH INFOPATH PKG_CONFIG_PATH USER TMP TEMP HOSTNAME PS1 SHELL tmp temp ORIGINAL_TMP ORIGINAL_TEMP ORIGINAL_PATH
+unset PATH_SEPARATOR
+
+# if [ "$MAYBE_FIRST_START" = "true" ]; then
+#   sh /usr/bin/regen-info.sh
+#   
+#   if [ -f "/usr/bin/update-ca-trust" ]
+#   then 
+#     sh /usr/bin/update-ca-trust
+#   fi
+# 
+#   clear
+#   echo
+#   echo
+#   echo "###################################################################"
+#   echo "#                                                                 #"
+#   echo "#                                                                 #"
+#   echo "#                   C   A   U   T   I   O   N                     #"
+#   echo "#                                                                 #"
+#   echo "#                  This is first start of MSYS2.                  #"
+#   echo "#       You MUST restart shell to apply necessary actions.        #"
+#   echo "#                                                                 #"
+#   echo "#                                                                 #"
+#   echo "###################################################################"
+#   echo
+#   echo
+# fi
+unset MAYBE_FIRST_START

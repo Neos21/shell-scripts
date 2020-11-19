@@ -1,0 +1,783 @@
+MSYS2_PATH="/usr/local/bin:/usr/bin:/bin"
+MANPATH='/usr/local/man:/usr/share/man:/usr/man:/share/man'
+INFOPATH='/usr/local/info:/usr/share/info:/usr/info:/share/info'
+
+# case "${MSYS2_PATH_TYPE:-inherit}" in
+#   strict)
+#     unset ORIGINAL_PATH
+#     ;;
+#   inherit)
+    # ココに入る・最初は空で $PATH そのまんまになる
+    # ORIGINAL_PATH="${ORIGINAL_PATH:-${PATH}}"
+    ORIGINAL_PATH="$PATH"
+#     ;;
+#   *)
+#     WIN_ROOT="$(PATH=${MSYS2_PATH} exec cygpath -Wu)"
+#     ORIGINAL_PATH="${WIN_ROOT}/System32:${WIN_ROOT}:${WIN_ROOT}/System32/Wbem:${WIN_ROOT}/System32/WindowsPowerShell/v1.0/"
+# esac
+
+# 使用箇所ないので無視する
+# unset MINGW_MOUNT_POINT
+
+
+# msystem : Start
+# ====================================================================================================
+
+# . '/etc/msystem'
+
+
+# SOURCE : /etc/msystem
+# ====================================================================================================
+
+# 'MSYS' になるので固定値にする
+# export MSYSTEM="${MSYSTEM:-MSYS}"
+export MSYSTEM=MSYS
+# 全部空なので無視する
+# unset MSYSTEM_PREFIX
+# unset MSYSTEM_CARCH
+# unset MSYSTEM_CHOST
+# unset MINGW_CHOST
+# unset MINGW_PREFIX
+# unset MINGW_PACKAGE_PREFIX
+# unset CONFIG_SITE
+# case "${MSYSTEM}" in  # 'MSYS' になっている
+#   MINGW32)
+#     MSYSTEM_PREFIX='/mingw32'
+#     MSYSTEM_CARCH='i686'
+#     MSYSTEM_CHOST='i686-w64-mingw32'
+#     MINGW_CHOST="${MSYSTEM_CHOST}"
+#     MINGW_PREFIX="${MSYSTEM_PREFIX}"
+#     MINGW_PACKAGE_PREFIX="mingw-w64-${MSYSTEM_CARCH}"
+#     CONFIG_SITE="${MSYSTEM_PREFIX}/etc/config.site"
+#     export MSYSTEM_PREFIX MSYSTEM_CARCH MSYSTEM_CHOST MINGW_CHOST MINGW_PREFIX MINGW_PACKAGE_PREFIX CONFIG_SITE
+#     ;;
+#   MINGW64)
+#     MSYSTEM_PREFIX='/mingw64'
+#     MSYSTEM_CARCH='x86_64'
+#     MSYSTEM_CHOST='x86_64-w64-mingw32'
+#     MINGW_CHOST="${MSYSTEM_CHOST}"
+#     MINGW_PREFIX="${MSYSTEM_PREFIX}"
+#     MINGW_PACKAGE_PREFIX="mingw-w64-${MSYSTEM_CARCH}"
+#     CONFIG_SITE="${MSYSTEM_PREFIX}/etc/config.site"
+#     export MSYSTEM_PREFIX MSYSTEM_CARCH MSYSTEM_CHOST MINGW_CHOST MINGW_PREFIX MINGW_PACKAGE_PREFIX CONFIG_SITE
+#     ;;
+#   *)
+#   # ココに入る
+    MSYSTEM_PREFIX='/usr'
+    # 'x86_64'
+    # MSYSTEM_CARCH="${HOSTTYPE}"
+    MSYSTEM_CARCH=x86_64
+    # 'x86_64-pc-msys'
+    # MSYSTEM_CHOST="${MACHTYPE}"
+    MSYSTEM_CHOST=x86_64-pc-msys
+    CONFIG_SITE="/etc/config.site"
+    export MSYSTEM_PREFIX MSYSTEM_CARCH MSYSTEM_CHOST CONFIG_SITE
+#     ;;
+# esac
+
+# ----------------------------------------------------------------------------------------------------
+
+
+# msystem : End
+# ----------------------------------------------------------------------------------------------------
+
+
+# case "${MSYSTEM}" in
+#   MINGW32)
+#     MINGW_MOUNT_POINT="${MINGW_PREFIX}"
+#     PATH="${MINGW_MOUNT_POINT}/bin:${MSYS2_PATH}${ORIGINAL_PATH:+:${ORIGINAL_PATH}}"
+#     PKG_CONFIG_PATH="${MINGW_MOUNT_POINT}/lib/pkgconfig:${MINGW_MOUNT_POINT}/share/pkgconfig"
+#     ACLOCAL_PATH="${MINGW_MOUNT_POINT}/share/aclocal:/usr/share/aclocal"
+#     MANPATH="${MINGW_MOUNT_POINT}/local/man:${MINGW_MOUNT_POINT}/share/man:${MANPATH}"
+#     ;;
+#   MINGW64)
+#     MINGW_MOUNT_POINT="${MINGW_PREFIX}"
+#     PATH="${MINGW_MOUNT_POINT}/bin:${MSYS2_PATH}${ORIGINAL_PATH:+:${ORIGINAL_PATH}}"
+#     PKG_CONFIG_PATH="${MINGW_MOUNT_POINT}/lib/pkgconfig:${MINGW_MOUNT_POINT}/share/pkgconfig"
+#     ACLOCAL_PATH="${MINGW_MOUNT_POINT}/share/aclocal:/usr/share/aclocal"
+#     MANPATH="${MINGW_MOUNT_POINT}/local/man:${MINGW_MOUNT_POINT}/share/man:${MANPATH}"
+#     ;;
+#   *)
+#     # ココに入る・「${ORIGINAL_PATH:+:${ORIGINAL_PATH}}」はその変数がある時だけ後ろの変数の値を入れてる・コロン付けたいだけだと思うしちょっと冗長なので省いちゃおうかな
+    # PATH="${MSYS2_PATH}:/opt/bin${ORIGINAL_PATH:+:${ORIGINAL_PATH}}"
+    PATH="${MSYS2_PATH}:/opt/bin:${ORIGINAL_PATH}"
+    PKG_CONFIG_PATH="/usr/lib/pkgconfig:/usr/share/pkgconfig:/lib/pkgconfig"
+# esac
+
+# 使わないので無視する
+# MAYBE_FIRST_START=false
+# '/etc' になる・使用箇所なし
+# SYSCONFDIR="${SYSCONFDIR:=/etc}"
+
+# それぞれ未定義で '/tmp' にしたいだけなので固定値で
+# ORIGINAL_TMP="${ORIGINAL_TMP:-${TMP}}"
+# ORIGINAL_TEMP="${ORIGINAL_TEMP:-${TEMP}}"
+ORIGINAL_TMP=/tmp
+ORIGINAL_TEMP=/tmp
+
+# 合致しない
+# case "$TMP" in *\\*) TMP="$(cygpath -m "$TMP")";; esac
+# case "$TEMP" in *\\*) TEMP="$(cygpath -m "$TEMP")";; esac
+# test -d "$TMPDIR" || test ! -d "$TMP" || {
+#   # ココに入る
+  TMPDIR="$TMP"
+  export TMPDIR
+# }
+
+# 呼び出し箇所なく実行されない
+# print_flags () {
+#   (( $1 & 0x0002 )) && echo -n "binary" || echo -n "text"
+#   (( $1 & 0x0010 )) && echo -n ",exec"
+#   (( $1 & 0x0040 )) && echo -n ",cygexec"
+#   (( $1 & 0x0100 )) && echo -n ",notexec"
+# }
+
+# 呼び出し元にインライン展開したので削る
+# profile_d () {
+  # local file=
+  
+  # ファイル IO を減らすため呼び出し元にインラインで書いて実行する
+  # for file in $(export LC_COLLATE=C; echo /etc/profile.d/*.$1); do
+  #   echo "SOURCE profiles : $file"
+  #   [ -e "${file}" ] && . "${file}"
+  # done
+  
+  # /mingw64/etc/profile.d/ ディレクトリは存在しないので以下不要
+  # if [ -n "${MINGW_MOUNT_POINT}" ]; then
+  #   for file in $(export LC_COLLATE=C; echo ${MINGW_MOUNT_POINT}/etc/profile.d/*.$1); do
+  #     [ -e "${file}" ] && . "${file}"
+  #   done
+  # fi
+# }
+
+
+# post-install : Start
+# ====================================================================================================
+
+# ファイル IO を減らすため以下で実行する
+# for postinst in $(export LC_COLLATE=C; echo /etc/post-install/*.post); do
+#   echo "SOURCE post-install : $postinst"
+#   [ -e "${postinst}" ] && . "${postinst}"
+# done
+
+
+# SOURCE : /etc/post-install/01-devices.post
+# ====================================================================================================
+
+# コレに時間かかってた・1回やれば済むので無視する
+# maybe_create_devs () {
+#   local DEVDIR=/dev
+  # if [ -e "${DEVDIR}" -a ! -d "${DEVDIR}" ]; then
+  #   # 到達しない
+  #   rm -f "${DEVDIR}"
+  #   if [ -e "${DEVDIR}" -a ! -d "${DEVDIR}" ]; then
+  #     echo "${DEVDIR} is existant but not a directory."
+  #     echo "Please fix that manually, otherwise you WILL get problems."
+  #     exit 1
+  #   fi
+  # fi
+  # mkdir -m 755 "${DEVDIR}" 2> /dev/null  # 既に存在する
+  # if [ ! -e "${DEVDIR}" ]; then
+  #   echo "Creating ${DEVDIR} directory failed."
+  #   echo "Please fix that manually, otherwise you WILL get problems."
+  #   exit 1
+  # fi
+  # if [ -e "${DEVDIR}/shm" -a ! -d "${DEVDIR}/shm" ]; then
+  #   # 到達しない
+  #   rm -f "${DEVDIR}/shm"
+  #   if [ -e "${DEVDIR}/shm" -a ! -d "${DEVDIR}/shm" ]; then
+  #     echo "${DEVDIR}/shm is existant but not a directory."
+  #     echo "POSIX semaphores and POSIX shared memory will not work"
+  #   fi
+  # fi
+  # if [ ! -e "${DEVDIR}/shm" ]; then
+  #   # 到達しない
+  #   mkdir -m 1777 "${DEVDIR}/shm"
+  #   if [ ! -e "${DEVDIR}/shm" ]; then
+  #     echo "Creating ${DEVDIR}/shm directory failed."
+  #     echo "POSIX semaphores and POSIX shared memory will not work"
+  #   fi
+  # else
+  #   # ココに入る・権限付与はできているので無視する
+  #   chmod 1777 "${DEVDIR}/shm"
+  # fi
+  # if [ -e "${DEVDIR}/mqueue" -a ! -d "${DEVDIR}/mqueue" ]; then
+  #   # 到達しない
+  #   rm -f "${DEVDIR}/mqueue"
+  #   if [ -e "${DEVDIR}/mqueue" -a ! -d "${DEVDIR}/mqueue" ]; then
+  #     echo "${DEVDIR}/mqueue is existant but not a directory."
+  #     echo "POSIX message queues will not work"
+  #   fi
+  # fi
+  # if [ ! -e "${DEVDIR}/mqueue" ]; then
+  #   # 到達しない
+  #   mkdir -m 1777 "${DEVDIR}/mqueue"
+  #   if [ ! -e "${DEVDIR}/mqueue" ]; then
+  #     echo "Creating ${DEVDIR}/mqueue directory failed."
+  #     echo "POSIX message queues will not work"
+  #   fi
+  # else
+  #   # ココに入る・権限付与はできているので無視する
+  #   chmod 1777 "${DEVDIR}/mqueue"
+  # fi
+  # シンボリックリンクを作るヤツ・もう作られているので無視する
+  # /usr/bin/test -h /dev/stdin  || ln -sf /proc/self/fd/0 /dev/stdin
+  # /usr/bin/test -h /dev/stdout || ln -sf /proc/self/fd/1 /dev/stdout
+  # /usr/bin/test -h /dev/stderr || ln -sf /proc/self/fd/2 /dev/stderr
+  # /usr/bin/test -h /dev/fd     || ln -sf /proc/self/fd   /dev/fd
+# }
+# maybe_create_devs
+
+# ----------------------------------------------------------------------------------------------------
+
+
+# SOURCE : /etc/post-install/03-mtab.post
+# ====================================================================================================
+
+# シンボリックリンク作るためのモノ・既に作られているので不要
+# maybe_create_mtab () {
+#   local MTAB="${SYSCONFDIR}/mtab"
+#   [ ! -L "${MTAB}" ] && ln -sf /proc/mounts ${MTAB}
+# }
+# maybe_create_mtab
+
+# ----------------------------------------------------------------------------------------------------
+
+
+# SOURCE : /etc/post-install/06-windows-files.post
+# ====================================================================================================
+
+# maybe_create_winetc () {
+  # local FILES="hosts protocols services networks"
+  # local WINSYS32HOME="$(exec /usr/bin/cygpath -S -w)"
+  # local WINETC="${WINSYS32HOME}\\drivers\\etc"
+  # if [ ! -d "${WINETC}" ]; then
+  #   echo "Directory ${WINETC} does not exist; exiting" >&2
+  #   echo "If directory name is garbage you need to update your msys package" >&2
+  #   exit 1
+  # fi
+  # local mketc=
+  # for mketc in ${FILES}; do
+  #   if [ ! -e "/etc/${mketc}" -a ! -L "/etc/${mketc}" ]; then
+  #     # 到達しない
+  #     local WFILE="${WINETC}\\$(exec expr substr "${mketc}" 1 8)"
+  #     /usr/bin/cp -p -v "${WFILE}" "/etc/${mketc}"
+  #   fi
+  # done
+  # 権限付与されているので無視する
+#   /usr/bin/chmod 1777 /tmp 2>/dev/null
+# }
+# maybe_create_winetc
+
+# ----------------------------------------------------------------------------------------------------
+
+
+# SOURCE : /etc/post-install/07-pacman-key.post
+# ====================================================================================================
+
+# maybe_init_keyring () {
+#   if [ ! -d /etc/pacman.d/gnupg ]; then
+#     # 到達しない
+#     /usr/bin/pacman-key --init
+#     /usr/bin/pacman-key --populate msys2 || true
+#     /usr/bin/pacman-key --refresh-keys || true
+#     MAYBE_FIRST_START=true
+#   fi
+# }
+# maybe_init_keyring
+
+# ----------------------------------------------------------------------------------------------------
+
+
+# SOURCE : /etc/post-install/08-xml-catalog.post
+# ====================================================================================================
+
+# /etc/xml/catalog は既に存在しているから処理を省く
+# maybe_create_xml_catalog () {
+#   if [ ! -f "/etc/xml/catalog" ]; then
+#     /usr/bin/mkdir -p /etc/xml
+#     /usr/bin/xmlcatalog --noout --create /etc/xml/catalog
+#     MAYBE_FIRST_START=true
+#   fi
+# }
+# maybe_create_xml_catalog
+
+# ----------------------------------------------------------------------------------------------------
+
+
+# SOURCE : /etc/post-install/99-post-install-cleanup.post
+# ====================================================================================================
+
+# ファイル消すだけなら処理を省く
+# if [ -f /ReleaseNotes.html -o -f /README.portable ]; then
+#   rm -rf /etc/post-install
+# fi
+
+# ----------------------------------------------------------------------------------------------------
+
+
+# post-install : End
+# ----------------------------------------------------------------------------------------------------
+
+
+# if [ ! "x${BASH_VERSION}" = "x" ]; then
+#   # ココに入る
+  # HOSTNAME="$(exec /usr/bin/hostname)"
+  HOSTNAME=Neos-Windows  # 固定値で書いちゃう・"$(/usr/bin/hostname)"
+  
+  # profiles.d : Start
+  # ====================================================================================================
+  
+  # ココで /etc/profile.d/ 配下のスクリプト群を呼び出していた
+  # profile_d sh
+  
+  # SOURCE : /etc/profile.d/aliases.sh
+  # ====================================================================================================
+  
+  # 両方 ~/.bashrc で設定してあるからいい
+  # alias ls='ls -F --color=auto --show-control-chars'
+  # alias ll='ls -l'
+  # case "$TERM" in  # 'cygwin' になる
+  #   xterm*)
+  #     for name in node ipython php php5 psql python2.7; do
+  #       case "$(type -p "$name".exe 2>/dev/null)" in
+  #         ''|/usr/bin/*) continue;;
+  #       esac
+  #       alias $name="winpty $name.exe"
+  #     done
+  #     ;;
+  # esac
+  
+  # ----------------------------------------------------------------------------------------------------
+  
+  
+  # SOURCE : /etc/profile.d/bash_completion.sh
+  # ====================================================================================================
+  
+  # 省く
+  # if [ -n "${BASH_VERSION-}" -a -n "${PS1-}" -a -z "${BASH_COMPLETION_VERSINFO-}" ]; then
+  #   if [ ${BASH_VERSINFO[0]} -gt 4 ] || [ ${BASH_VERSINFO[0]} -eq 4 -a ${BASH_VERSINFO[1]} -ge 1 ]; then
+  #     [ -r "${XDG_CONFIG_HOME:-$HOME/.config}/bash_completion" ] && . "${XDG_CONFIG_HOME:-$HOME/.config}/bash_completion"
+  #     if shopt -q progcomp && [ -r /usr/share/bash-completion/bash_completion ]; then
+  #       . /usr/share/bash-completion/bash_completion
+  #     fi
+  #   fi
+  # fi
+  
+  # ----------------------------------------------------------------------------------------------------
+  
+  
+  # SOURCE : /etc/profile.d/bash_profile.sh
+  # ====================================================================================================
+  
+  # 省く
+  # if [ -e ~/.bashrc -a ! -e ~/.bash_profile -a ! -e ~/.bash_login -a ! -e ~/.profile ]; then
+  #   printf "\n\033[31mWARNING: Found ~/.bashrc but no ~/.bash_profile, ~/.bash_login or ~/.profile.\033[m\n\n"
+  #   echo "This looks like an incorrect setup."
+  #   echo "A ~/.bash_profile that loads ~/.bashrc will be created for you."
+  #   cat >~/.bash_profile <<-\EOF
+  #   test -f ~/.profile && . ~/.profile
+  #   test -f ~/.bashrc && . ~/.bashrc
+  #   EOF
+  # fi
+  
+  # ----------------------------------------------------------------------------------------------------
+  
+  
+  # SOURCE : /etc/profile.d/env.sh
+  # ====================================================================================================
+  
+  # export 後でするのでココでは省く
+  # export PATH="$HOME/bin:$PATH"
+  PATH="$HOME/bin:$PATH"
+  # 満たす case がないので省く
+  # test -n "$SSH_ASKPASS" || {
+  #   # ココに入る
+  #   case "$MSYSTEM" in  # 'MSYS' になっている
+  #     MINGW64)
+  #       export DISPLAY=needs-to-be-defined
+  #       export SSH_ASKPASS=/mingw64/libexec/git-core/git-gui--askpass
+  #       ;;
+  #     MINGW32)
+  #       export DISPLAY=needs-to-be-defined
+  #       export SSH_ASKPASS=/mingw32/libexec/git-core/git-gui--askpass
+  #       ;;
+  #   esac
+  # }
+  
+  # ----------------------------------------------------------------------------------------------------
+  
+  
+  # SOURCE : /etc/profile.d/git-prompt.sh
+  # ====================================================================================================
+  
+  # if test -f /etc/profile.d/git-sdk.sh; then
+  #   # ココに入る・'SDK-MSYS' になる・コレは export はしておらず PS1 で使いたいがための変数・不要
+    # TITLEPREFIX=SDK-${MSYSTEM#MINGW}
+  # else
+  #   TITLEPREFIX=$MSYSTEM
+  # fi
+  # if test -f ~/.config/git/git-prompt.sh; then
+  #   . ~/.config/git/git-prompt.sh
+  # else
+  #   # ココに入る
+  #   # PS1='\[\033]0;$TITLEPREFIX:$PWD\007\]' # set window title
+  #   # PS1="$PS1"'\n'                 # new line
+  #   # PS1="$PS1"'\[\033[32m\]'       # change to green
+  #   # PS1="$PS1"'\u@\h '             # user@host<space>
+  #   # PS1="$PS1"'\[\033[35m\]'       # change to purple
+  #   # PS1="$PS1"'$MSYSTEM '          # show MSYSTEM
+  #   # PS1="$PS1"'\[\033[33m\]'       # change to brownish yellow
+  #   # PS1="$PS1"'\w'                 # current working directory
+  #   # if test -z "$WINELOADERNOEXEC"
+  #   # then
+  #   #   GIT_EXEC_PATH="$(git --exec-path 2>/dev/null)"
+  #   #   COMPLETION_PATH="${GIT_EXEC_PATH%/libexec/git-core}"
+  #   #   COMPLETION_PATH="${COMPLETION_PATH%/lib/git-core}"
+  #   #   COMPLETION_PATH="$COMPLETION_PATH/share/git/completion"
+  #   #   if test -f "$COMPLETION_PATH/git-prompt.sh"
+  #   #   then
+  #   #     . "$COMPLETION_PATH/git-completion.bash"
+  #   #     . "$COMPLETION_PATH/git-prompt.sh"
+  #   #     PS1="$PS1"'\[\033[36m\]'  # change color to cyan
+  #   #     PS1="$PS1"'`__git_ps1`'   # bash function
+  #   #   fi
+  #   # fi
+  #   # PS1="$PS1"'\[\033[0m\]'        # change color
+  #   # PS1="$PS1"'\n'                 # new line
+  #   # PS1="$PS1"'$ '                 # prompt: always $
+    PS1='\n$ '
+  # fi
+  # なくていい
+  # MSYS2_PS1="$PS1"               # for detection by MSYS2 SDK's bash.basrc
+  
+  # ----------------------------------------------------------------------------------------------------
+  
+  
+  # SOURCE : /etc/profile.d/git-sdk.sh
+  # ====================================================================================================
+  
+  # C:\git-sdk-32\ があった時に mount する処理なので無視する
+  # 'C:\git-sdk-64' になる
+  # rootdir="$(cygpath -w /)" &&
+  # rootdir="${rootdir%\\}" &&
+  # case "$rootdir" in
+  #   *\\git-sdk-32|*\\git-sdk-64)
+  #     # ココに入る
+  #     otherarch=$((96-${rootdir##*-})) &&
+  #     if test ! -d /sdk$otherarch; then
+  #       # ココに入る
+  #       othersdk="${rootdir%??}$otherarch"  # 'C:\git-sdk-32' になる
+  #       test ! -d "$othersdk" ||
+  #       mount -o noacl "$othersdk" /sdk$otherarch 2>/dev/null
+  #     fi
+  #     ;;
+  # esac
+  # 以下の sdk() 関数の使用箇所がなくなったので削る
+  # sdk () {
+  #   case "$1" in
+  #     help|--help|-h)
+  #       cat >&2 <<-EOF
+  #       The 'sdk' shell function helps you to get up and running
+  #       with the Git for Windows SDK. The available subcommands are:
+  #       
+  #       create-desktop-icon: install a desktop icon that starts the Git for
+  #           Windows SDK Bash.
+  #       
+  #       cd <project>: initialize/update a worktree and cd into it. Known projects
+  #           are: git, git-extra, build-extra, MINGW-packages, MSYS2-packages.
+  #       
+  #       init <project>: initialize and/or update a worktree. Known projects
+  #           are the same as for the 'cd' command.
+  #       
+  #       build <project>: builds one of the following: git, git-and-installer.
+  #       EOF
+  #       ;;
+  #     welcome)
+  #       # 起動時の echo なし
+  #       # cat >&2 <<-EOF
+  #       # Welcome to the Git for Windows SDK!
+  #       # 
+  #       # The common tasks are automated via the \`sdk\` function;
+  #       # See \`sdk help\` for details.
+  #       # EOF
+  #       ;;
+  #     create-desktop-icon)
+  #       # デスクトップアイコン作らせない
+  #       # force=t &&
+  #       # while case "$1" in
+  #       #   --gentle) force=;;
+  #       #   '') break;;
+  #       #   -*) sdk die "Unknown option: %s\n" "$1"; return 1;;
+  #       # esac; do shift; done &&
+  #       # case "$(uname -m)" in
+  #       #   i686) bitness=" 32-bit";;
+  #       #   x86_64) bitness=" 64-bit";;
+  #       #   *) bitness=;;
+  #       # esac &&
+  #       # desktop_icon_path="$USERPROFILE/Desktop/Git SDK$bitness.lnk" &&
+  #       # if test -n "$force" || test ! -f "$desktop_icon_path"; then
+  #       #   create-shortcut.exe --icon-file /msys2.ico --work-dir \
+  #       #     / /git-bash.exe "$desktop_icon_path"
+  #       # fi
+  #       ;;
+  #     die)
+  #       shift
+  #       echo "$*" >&2
+  #       return 1
+  #       ;;
+  #     valid_commands)
+  #       echo "build cd create-desktop-icon init"
+  #       ;;
+  #     valid_projects)
+  #       echo "build-extra git git-extra MINGW-packages MSYS2-packages"
+  #       ;;
+  #     init-lazy)
+  #       # case "$2" in
+  #       #   build-extra|git|MINGW-packages|MSYS2-packages)
+  #       #     src_dir=/usr/src/"$2"
+  #       #     src_cdup_dir="$src_dir"
+  #       #     test -d "$src_dir"/.git && return
+  #       #     # 以下に到達しない
+  #       #     mkdir -p "$src_dir" &&
+  #       #     git -C "$src_dir" init &&
+  #       #     git -C "$src_dir" config core.autocrlf false &&
+  #       #     git -C "$src_dir" remote add origin \
+  #       #       https://github.com/git-for-windows/"$2" ||
+  #       #     sdk die "Could not initialize $src_dir"
+  #       #     ;;
+  #       #   git-extra)
+  #       #     # 入らない
+  #       #     sdk init-lazy build-extra &&
+  #       #     src_dir="$src_dir/$2" ||
+  #       #     return 1
+  #       #     ;;
+  #       #   *)
+  #       #     sdk die "Unhandled repository: $2" >&2
+  #       #     ;;
+  #       # esac
+  #       ;;
+  #     cd)
+  #       # 呼ばれない
+  #       # sdk init "$2" &&
+  #       # cd "$src_dir" ||
+  #       # sdk die "Could not change directory to '$2'"
+  #       ;;
+  #     init)
+  #       # 呼ばれない
+  #       # sdk init-lazy "$2" &&
+  #       # git -C "$src_cdup_dir" pull origin master &&
+  #       # if test git = "$2" && test ! -f "$src_dir/config.mak"; then
+  #       #   cat >"$src_dir/config.mak" <<-\EOF
+  #       #   DEVELOPER=1
+  #       #   ifndef NDEBUG
+  #       #   CFLAGS := $(filter-out -O2,$(CFLAGS))
+  #       #   ASLR_OPTION := -Wl,--dynamicbase
+  #       #   BASIC_LDFLAGS := $(filter-out $(ASLR_OPTION),$(BASIC_LDFLAGS))
+  #       #   endif
+  #       #   EOF
+  #       # fi
+  #       ;;
+  #     build)
+  #       # 呼ばれない
+  #       # case "$2" in
+  #       #   git)
+  #       #     sdk init git &&
+  #       #     make -C "$src_dir" -j$(nproc) DEVELOPER=1
+  #       #     ;;
+  #       #   installer)
+  #       #     sdk init build-extra &&
+  #       #     "$src_dir"/installer/release.sh "${3:-0-test}"
+  #       #     ;;
+  #       #   git-and-installer)
+  #       #     sdk build git &&
+  #       #     make -C "$src_dir" strip install &&
+  #       #     pacman -Syyu git-extra &&
+  #       #     sdk init build-extra &&
+  #       #     "$src_dir"/installer/release.sh "${3:-0-test}"
+  #       #     ;;
+  #       #   *)
+  #       #     cat >&2 <<EOF
+  #       #     sdk build <project>
+  #       #     
+  #       #     Supported projects:
+  #       #       git
+  #       #       installer [<version>]
+  #       #       git-and-installer [<version>]
+  #       #     EOF
+  #       #     return 1
+  #       #     ;;
+  #       # esac
+  #       ;;
+  #     *)
+  #       printf "Usage: sdk <command> [<argument>...]\n\n" >&2 &&
+  #       sdk help
+  #       ;;
+  #   esac
+  # }
+  # case $- in
+  #   *i*)
+  #     test -n "$JENKINS_URL" || {
+  #       # 呼ぶ必要ない
+  #       for project in git build-extra MINGW-packages MSYS2-packages; do
+  #         sdk init-lazy $project
+  #       done
+  #       # 呼ばない
+  #       # sdk create-desktop-icon --gentle
+  #     }
+  #     # 呼ばない
+  #     # sdk welcome
+  #     ;;
+  # esac
+  
+  # ----------------------------------------------------------------------------------------------------
+  
+  
+  # SOURCE : /etc/profile.d/lang.sh
+  # ====================================================================================================
+  
+  # $LANG は空文字から 'ja_JP.UTF-8' になる
+  # test -z "${LC_ALL:-${LC_CTYPE:-$LANG}}" && export LANG=$(exec /usr/bin/locale -uU)
+  export LANG=ja_JP.UTF-8
+  
+  # ----------------------------------------------------------------------------------------------------
+  
+  
+  # SOURCE : /etc/profile.d/perlbin.sh
+  # ====================================================================================================
+  
+  # [ -d /usr/bin/site_perl ] && PATH=$PATH:/usr/bin/site_perl  # 存在しない
+  # [ -d /usr/lib/perl5/site_perl/bin ] && PATH=$PATH:/usr/lib/perl5/site_perl/bin  # 存在しない
+  # [ -d /usr/bin/vendor_perl ] && PATH=$PATH:/usr/bin/vendor_perl  # 存在する
+  # [ -d /usr/lib/perl5/vendor_perl/bin ] && PATH=$PATH:/usr/lib/perl5/vendor_perl/bin  # 存在しない
+  # [ -d /usr/bin/core_perl ] && PATH=$PATH:/usr/bin/core_perl  # 存在する
+  # export PATH
+  # 存在する2つだけ結合しておく・export は後でする
+  PATH=$PATH:/usr/bin/vendor_perl:/usr/bin/core_perl
+  
+  # ----------------------------------------------------------------------------------------------------
+  
+  
+  # SOURCE : /etc/profile.d/tzset.sh
+  # ====================================================================================================
+  
+  # $TZ は空文字から 'Asia/Tokyo' になる
+  # test -z "$TZ" && export TZ=$(exec /usr/bin/tzset)
+  export TZ=Asia/Tokyo
+  
+  # ----------------------------------------------------------------------------------------------------
+  
+  
+  # profiles.d : End
+  # ----------------------------------------------------------------------------------------------------
+  
+  
+  # /etc/bash.bashrc : Start
+  # ====================================================================================================
+  
+  # [ -f "/etc/bash.bashrc" ] && . "/etc/bash.bashrc"
+  
+  
+  # SOURCE : /etc/bash.bashrc
+  # ====================================================================================================
+  
+  # 空文字のままだからいいや
+  # ([[ -z ${CYG_SYS_BASHRC} ]] && CYG_SYS_BASHRC="1") || return
+  # 'himBH' になっている
+  # [[ "$-" != *i* ]] && return
+  # このファイルを読み込む場合だから無視する
+  # if [[ -n "$SSH_CONNECTION" ]] && [[ "$PATH" != *:/usr/bin* ]]; then
+  #   source /etc/profile
+  # fi
+  # unset _warning_found
+  # 結局何もしないので無視する
+  # for _warning_prefix in '' ${MINGW_PREFIX}; do
+  #   # ココには1回入るが空
+  #   for _warning_file in ${_warning_prefix}/etc/profile.d/*.warning{.once,}; do
+  #     # ココには2回入る
+  #     test -f "${_warning_file}" || continue
+  #     _warning="$(command sed 's/^/\t\t/' "${_warning_file}" 2>/dev/null)"
+  #     # ココには他王達シない
+  #     if test -n "${_warning}"; then
+  #       if test -z "${_warning_found}"; then
+  #         _warning_found='true'
+  #         echo
+  #       fi
+  #       if test -t 1
+  #         then printf "\t\e[1;33mwarning:\e[0m\n${_warning}\n\n"
+  #         else printf "\twarning:\n${_warning}\n\n"
+  #       fi
+  #     fi
+  #     [[ "${_warning_file}" = *.once ]] && rm -f "${_warning_file}"
+  #   done
+  # done
+  # unset _warning_found
+  # unset _warning_prefix
+  # unset _warning_file
+  # unset _warning
+  # 上で設定済なので無視する
+  # [[ -n "${MSYS2_PS1}" ]] && export PS1="${MSYS2_PS1}"
+  # 実行されないししたくないので無視する
+  # [[ $(declare -p PS1 2>/dev/null | cut -c 1-11) = 'declare -x ' ]] || \
+  #   export PS1='\[\e]0;\w\a\]\n\[\e[32m\]\u@\h \[\e[35m\]$MSYSTEM\[\e[0m\] \[\e[33m\]\w\[\e[0m\]\n'"${_ps1_symbol}"' '
+  # unset _ps1_symbol
+  # 呼ばない
+  # shopt -q login_shell || . /etc/profile.d/git-prompt.sh
+  
+  # ----------------------------------------------------------------------------------------------------
+  
+  
+  # /etc/bash.bashrc : End
+  # ----------------------------------------------------------------------------------------------------
+  
+  
+# elif [ ! "x${KSH_VERSION}" = "x" ]; then
+#   typeset -l HOSTNAME="$(exec /usr/bin/hostname)"
+#   profile_d sh
+#   PS1=$(print '\033]0;${PWD}\n\033[32m${USER}@${HOSTNAME} \033[33m${PWD/${HOME}/~}\033[0m\n$ ')
+# elif [ ! "x${ZSH_VERSION}" = "x" ]; then
+#   HOSTNAME="$(exec /usr/bin/hostname)"
+#   profile_d sh
+#   profile_d zsh
+#   PS1='(%n@%m)[%h] %~ %% '
+# elif [ ! "x${POSH_VERSION}" = "x" ]; then
+#   HOSTNAME="$(exec /usr/bin/hostname)"
+#   PS1="$ "
+# else 
+#   HOSTNAME="$(exec /usr/bin/hostname)"
+#   profile_d sh
+#   PS1="$ "
+# fi
+
+# if [ -n "$ACLOCAL_PATH" ]; then
+#   # 空なので合致しない
+#   export ACLOCAL_PATH
+# fi
+
+export PATH MANPATH INFOPATH PKG_CONFIG_PATH USER TMP TEMP HOSTNAME PS1 SHELL tmp temp ORIGINAL_TMP ORIGINAL_TEMP ORIGINAL_PATH
+# 空なので無視する
+# unset PATH_SEPARATOR
+
+# if [ "$MAYBE_FIRST_START" = "true" ]; then
+#   # false なので合致しない
+#   sh /usr/bin/regen-info.sh
+#   if [ -f "/usr/bin/update-ca-trust" ]; then
+#     sh /usr/bin/update-ca-trust
+#   fi
+#   clear
+#   echo
+#   echo
+#   echo "###################################################################"
+#   echo "#                                                                 #"
+#   echo "#                                                                 #"
+#   echo "#                   C   A   U   T   I   O   N                     #"
+#   echo "#                                                                 #"
+#   echo "#                  This is first start of MSYS2.                  #"
+#   echo "#       You MUST restart shell to apply necessary actions.        #"
+#   echo "#                                                                 #"
+#   echo "#                                                                 #"
+#   echo "###################################################################"
+#   echo
+#   echo
+# fi
+# unset MAYBE_FIRST_START
