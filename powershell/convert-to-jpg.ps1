@@ -1,5 +1,7 @@
-Ôªø# ConvertTo-Jpeg - Converts RAW (and other) image files to the widely-supported JPEG format
+# ================================================================================
+# å≥ ÅF ConvertTo-Jpeg - Converts RAW (and other) image files to the widely-supported JPEG format
 # https://github.com/DavidAnson/ConvertTo-Jpeg
+# ================================================================================
 
 Param (
     [Parameter(

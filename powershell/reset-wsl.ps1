@@ -1,5 +1,5 @@
 # ================================================================================
-# Restart WSL2 : https://qiita.com/RIckyBan/items/87b558220d2bc5dd11cb
+# WSL2 ‚ğÄ‹N“®‚·‚é F https://qiita.com/RIckyBan/items/87b558220d2bc5dd11cb
 # ================================================================================
 
 Restart-Service LxssManager
