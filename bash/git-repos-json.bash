@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # 自分のリポジトリ一覧の JSON を取得する
 # 

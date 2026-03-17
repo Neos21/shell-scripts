@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # 自分のリポジトリ一覧から git clone 用 URL のみ抽出する
 # 
