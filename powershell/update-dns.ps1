@@ -1,41 +1,41 @@
-# ====================================================================================================
-# DNS İ’è•ÏXƒc[ƒ‹
+ï»¿# ====================================================================================================
+# DNS è¨­å®šå¤‰æ›´ãƒ„ãƒ¼ãƒ«
 # ====================================================================================================
 
-# ƒpƒ‰ƒ[ƒ^‚ğ•Ï” `$mode` ‚Åó‚¯æ‚éE`param()` ‚ÍƒXƒNƒŠƒvƒgæ“ª‚É‘‚­•K—vƒAƒŠ
-param([ValidateSet('set', 'restore', 'open')] [string]$mode = '');
+# ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’å¤‰æ•° `$mode` ã§å—ã‘å–ã‚‹ãƒ»`param()` ã¯ã‚¹ã‚¯ãƒªãƒ—ãƒˆå…ˆé ­ã«æ›¸ãå¿…è¦ã‚¢ãƒª
+param([ValidateSet('set-cloudflare', 'restore', 'open')] [string]$mode = '');
 
 Write-Host '------------------';
-Write-Host 'DNS İ’è•ÏXƒc[ƒ‹';
+Write-Host 'DNS è¨­å®šå¤‰æ›´ãƒ„ãƒ¼ãƒ«';
 Write-Host '------------------';
 Write-Host '';
 
-# ƒƒCƒ“‚Ìƒlƒbƒgƒ[ƒNƒCƒ“ƒ^[ƒtƒF[ƒX‚ğæ“¾‚·‚é
+# ãƒ¡ã‚¤ãƒ³ã®ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã‚’å–å¾—ã™ã‚‹
 $iface = Get-NetRoute -DestinationPrefix '0.0.0.0/0' | Sort-Object RouteMetric | Select-Object -First 1;
 $alias = $iface.InterfaceAlias;
-Write-Host "‘ÎÛ‚Ìƒlƒbƒgƒ[ƒNƒCƒ“ƒ^[ƒtƒF[ƒX : $alias";
+Write-Host "å¯¾è±¡ã®ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ : $alias";
 Write-Host '';
 
-# Œ»İ‚Ì DNS ‚ğæ“¾‚·‚é
+# ç¾åœ¨ã® DNS ã‚’å–å¾—ã™ã‚‹
 $current = Get-DnsClientServerAddress -InterfaceAlias $alias;
-Write-Host 'Œ»İ‚Ì DNS :';
+Write-Host 'ç¾åœ¨ã® DNS :';
 $current.ServerAddresses | ForEach-Object { Write-Host "  $_"; };
 Write-Host '';
 
-if ($mode -eq 'set') {
-  Write-Host 'Cloudflare DNS ‚Éİ’è‚µ‚Ü‚·c';
+if ($mode -eq 'set-cloudflare') {
+  Write-Host 'Cloudflare DNS ã«è¨­å®šã—ã¾ã™â€¦';
   $cloudflareIPv4 = '1.1.1.1', '1.0.0.1';
   $cloudflareIPv6 = '2606:4700:4700::1111', '2606:4700:4700::1001';
   Set-DnsClientServerAddress -InterfaceAlias $alias -ServerAddresses ($cloudflareIPv4 + $cloudflareIPv6);
-  Write-Host 'Cloudflare DNS ‚É–ß‚µ‚Ü‚µ‚½';
+  Write-Host 'Cloudflare DNS ã«æˆ»ã—ã¾ã—ãŸ';
 }
 elseif ($mode -eq 'restore') {
-  Write-Host 'ƒfƒtƒHƒ‹ƒgİ’è DHCP DNS ‚Éİ’è‚µ‚Ü‚·c';
+  Write-Host 'ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆè¨­å®š DHCP DNS ã«è¨­å®šã—ã¾ã™â€¦';
   Set-DnsClientServerAddress -InterfaceAlias $alias -ResetServerAddresses;
-  Write-Host 'ƒfƒtƒHƒ‹ƒgİ’è DHCP DNS ‚É–ß‚µ‚Ü‚µ‚½';
+  Write-Host 'ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆè¨­å®š DHCP DNS ã«æˆ»ã—ã¾ã—ãŸ';
 }
 elseif ($mode -eq 'open') {
-  Write-Host 'uƒlƒbƒgƒ[ƒN‚Ìó‘ÔvƒEƒBƒ“ƒhƒE‚ğŠJ‚«‚Ü‚·c';
+  Write-Host 'ã€Œãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã®çŠ¶æ…‹ã€ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’é–‹ãã¾ã™â€¦';
   $shell = New-Object -ComObject Shell.Application;
   $folder = $shell.Namespace('shell:ConnectionsFolder');
   foreach ($item in $folder.Items()) {
@@ -43,12 +43,12 @@ elseif ($mode -eq 'open') {
       $item.InvokeVerb('Status');
     }
   }
-  Write-Host 'uƒlƒbƒgƒ[ƒN‚Ìó‘ÔvƒEƒBƒ“ƒhƒE‚ğŠJ‚«‚Ü‚µ‚½BuƒvƒƒpƒeƒBv‚Ì’†‚©‚ç IPv4EIPv6 İ’è‚ª GUI ‚ÅŠm”F‚Å‚«‚Ü‚·';
+  Write-Host 'ã€Œãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã®çŠ¶æ…‹ã€ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’é–‹ãã¾ã—ãŸã€‚ã€Œãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã€ã®ä¸­ã‹ã‚‰ IPv4ãƒ»IPv6 è¨­å®šãŒ GUI ã§ç¢ºèªã§ãã¾ã™';
 }
 else {
-  Write-Host '- `set` ‚ğw’è‚·‚é‚Æ Cloudflare DNS ‚Éİ’è•ÏX‚µ‚Ü‚· (IPv4EIPv6 —¼‘Î‰)';
-  Write-Host '- `restore` ‚ğw’è‚·‚é‚ÆƒfƒtƒHƒ‹ƒgİ’è DHCP DNS ‚É•ÏX‚µ‚Ü‚·';
-  Write-Host '- `open` ‚ğw’è‚·‚é‚Æuƒlƒbƒgƒ[ƒN‚Ìó‘ÔvƒEƒBƒ“ƒhƒE‚ğŠJ‚«‚Ü‚·BuƒvƒƒpƒeƒBv‚Ì’†‚©‚ç IPv4EIPv6 İ’è‚ª GUI ‚ÅŠm”F‚Å‚«‚Ü‚·';
+  Write-Host '- `set-cloudflare` ã‚’æŒ‡å®šã™ã‚‹ã¨ Cloudflare DNS ã«è¨­å®šå¤‰æ›´ã—ã¾ã™ (IPv4ãƒ»IPv6 ä¸¡å¯¾å¿œ)';
+  Write-Host '- `restore` ã‚’æŒ‡å®šã™ã‚‹ã¨ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆè¨­å®š DHCP DNS ã«å¤‰æ›´ã—ã¾ã™';
+  Write-Host '- `open` ã‚’æŒ‡å®šã™ã‚‹ã¨ã€Œãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã®çŠ¶æ…‹ã€ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’é–‹ãã¾ã™ã€‚ã€Œãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã€ã®ä¸­ã‹ã‚‰ IPv4ãƒ»IPv6 è¨­å®šãŒ GUI ã§ç¢ºèªã§ãã¾ã™';
 }
 
 Write-Host '';
