@@ -1,9 +1,11 @@
-﻿# ====================================================================================================
-# DNS 設定変更ツール
+﻿#Requires -RunAsAdministrator
+
+# ====================================================================================================
+# DNS 設定変更ツール : 管理者権限で実行する必要アリ
 # ====================================================================================================
 
 # パラメータを変数 `$mode` で受け取る・`param()` はスクリプト先頭に書く必要アリ
-param([ValidateSet('set-cloudflare', 'restore', 'open')] [string]$mode = '');
+param([ValidateSet('set-cloudflare', 'set-google', 'restore', 'open')] [string]$mode = '');
 
 Write-Host '------------------';
 Write-Host 'DNS 設定変更ツール';
@@ -27,7 +29,14 @@ if ($mode -eq 'set-cloudflare') {
   $cloudflareIPv4 = '1.1.1.1', '1.0.0.1';
   $cloudflareIPv6 = '2606:4700:4700::1111', '2606:4700:4700::1001';
   Set-DnsClientServerAddress -InterfaceAlias $alias -ServerAddresses ($cloudflareIPv4 + $cloudflareIPv6);
-  Write-Host 'Cloudflare DNS に戻しました';
+  Write-Host 'Cloudflare DNS に設定しました';
+}
+elseif ($mode -eq 'set-google') {
+  Write-Host 'Google Public DNS に設定します…';
+  $googleIPv4 = '8.8.8.8', '8.8.4.4';
+  $googleIPv6 = '2001:4860:4860::8888', '2001:4860:4860::8844';
+  Set-DnsClientServerAddress -InterfaceAlias $alias -ServerAddresses ($googleIPv4 + $googleIPv6);
+  Write-Host 'Google Public DNS に設定しました';
 }
 elseif ($mode -eq 'restore') {
   Write-Host 'デフォルト設定 DHCP DNS に設定します…';
@@ -47,6 +56,7 @@ elseif ($mode -eq 'open') {
 }
 else {
   Write-Host '- `set-cloudflare` を指定すると Cloudflare DNS に設定変更します (IPv4・IPv6 両対応)';
+  Write-Host '- `set-google` を指定すると Cloudflare DNS に設定変更します (IPv4・IPv6 両対応)';
   Write-Host '- `restore` を指定するとデフォルト設定 DHCP DNS に変更します';
   Write-Host '- `open` を指定すると「ネットワークの状態」ウィンドウを開きます。「プロパティ」の中から IPv4・IPv6 設定が GUI で確認できます';
 }
