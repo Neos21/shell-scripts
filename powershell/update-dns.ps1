@@ -56,7 +56,7 @@ elseif ($mode -eq 'open') {
 }
 else {
   Write-Host '- `set-cloudflare` を指定すると Cloudflare DNS に設定変更します (IPv4・IPv6 両対応)';
-  Write-Host '- `set-google` を指定すると Cloudflare DNS に設定変更します (IPv4・IPv6 両対応)';
+  Write-Host '- `set-google` を指定すると Google Public DNS に設定変更します (IPv4・IPv6 両対応)';
   Write-Host '- `restore` を指定するとデフォルト設定 DHCP DNS に変更します';
   Write-Host '- `open` を指定すると「ネットワークの状態」ウィンドウを開きます。「プロパティ」の中から IPv4・IPv6 設定が GUI で確認できます';
 }
